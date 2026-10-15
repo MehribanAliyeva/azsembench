@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.idea/
+.DS_Store
+outputs/
+data/build/
+data/cache/batch_jobs/
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+*.zip

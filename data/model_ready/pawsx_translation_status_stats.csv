@@ -1,0 +1,11 @@
+﻿dataset_file,source_dataset,split,pair_status,issue_origin,model_ready,rows,percent
+pawsx_translation,paws-x,dev,UNASSESSED_MISSING_TRANSLATION,NONE,False,2000,3.745248216325537
+pawsx_translation,paws-x,test,SOURCE_IDENTICAL_POSITIVE,SOURCE,False,3,0.0056178723244883055
+pawsx_translation,paws-x,test,UNASSESSED_MISSING_TRANSLATION,NONE,False,1997,3.7396303440010485
+pawsx_translation,paws-x,train,IDENTICAL_AFTER_TRANSLATION_POSITIVE,TRANSLATION,True,1469,2.750884814891107
+pawsx_translation,paws-x,train,OK,NONE,True,16949,31.73910600925076
+pawsx_translation,paws-x,train,SOURCE_IDENTICAL_NEGATIVE,SOURCE,False,17,0.03183460983876706
+pawsx_translation,paws-x,train,SOURCE_IDENTICAL_POSITIVE,SOURCE,False,63,0.11797531881425441
+pawsx_translation,paws-x,train,SOURCE_IDENTICAL_POSITIVE,SOURCE,True,32,0.059923971461208585
+pawsx_translation,paws-x,train,TRANSLATION_COLLAPSE_NEGATIVE,TRANSLATION,False,28,0.05243347502855752
+pawsx_translation,paws-x,train,UNASSESSED_MISSING_TRANSLATION,NONE,False,30843,57.75734536806427

@@ -1,0 +1,6 @@
+﻿model,threshold,selection_split,selection_metric,dev_f1
+sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2,0.7826685607433319,dev,f1,0.6140243368642213
+sentence-transformers/paraphrase-multilingual-mpnet-base-v2,0.8696846961975098,dev,f1,0.6144641914481788
+sentence-transformers/LaBSE,0.8592350482940674,dev,f1,0.614635842169303
+LocalDoc/az-en-MiniLM-L6-v2,0.9102341532707214,dev,f1,0.6141223706031247
+intfloat/multilingual-e5-large,0.9197297990322113,dev,f1,0.6141814389989573

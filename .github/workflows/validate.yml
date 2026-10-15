@@ -1,0 +1,13 @@
+name: Validate repository
+on: [push, pull_request]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r requirements.txt 'nbformat>=5.10,<6'
+      - run: python -m unittest discover -s tests -v
+      - run: python scripts/validate_repository.py
