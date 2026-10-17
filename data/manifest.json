@@ -1,5 +1,5 @@
 {
-  "snapshot_date": "2026-10-14",
+  "snapshot_date": "2026-10-17",
   "repository": "MehribanAliyeva/azsembench",
   "provenance": {
     "source_snapshots": "Original columns extracted from project data/final_from_cache/azsembench_core.csv and pawsx_multilingual_with_az.csv; exact upstream revision was not recorded in the supplied project.",
@@ -8,7 +8,7 @@
     "semantic_similarity_results": "Imported from attached semantic_similarity_results folder.",
     "paraphrase_results": "Imported from attached paraphrase_detection_results.zip. Predictions losslessly gzip-compressed.",
     "sts_finetuned_results": "Imported from attached sts_finetuned_all_metrics (1).csv; four models; no prediction variant, logs or weights provided.",
-    "paws_finetuned_results": "Pending; notebook only."
+    "paws_finetuned_results": "Imported unchanged from attached paws_finetuned_all_metrics.csv on 2026-10-17; four models across train/dev/test; threshold 0.5. No predictions, training summaries or weights supplied."
   },
   "files": [
     {
@@ -265,6 +265,34 @@
         "dev_f1"
       ],
       "rows": 5
+    },
+    {
+      "path": "results/paws_finetuned/paws_finetuned_all_metrics.csv",
+      "bytes": 3712,
+      "sha256": "c751a8dc7c86f3942612d51b289a1e87434c910134dabf72b19f752d858d6c90",
+      "columns": [
+        "model",
+        "split",
+        "n",
+        "threshold",
+        "accuracy",
+        "precision",
+        "recall",
+        "f1",
+        "balanced_accuracy",
+        "mcc",
+        "brier_score",
+        "pearson",
+        "spearman",
+        "kendall_tau",
+        "tn",
+        "fp",
+        "fn",
+        "tp",
+        "roc_auc",
+        "average_precision"
+      ],
+      "rows": 12
     },
     {
       "path": "results/semantic_similarity/semantic_similarity_all_metrics.csv",

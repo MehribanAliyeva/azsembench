@@ -113,7 +113,7 @@ python audit_core_and_translation_dataset.py --out-dir /tmp/azsembench-model-rea
 | [evaluate_sts.ipynb](notebooks/evaluate_sts.ipynb) | Evaluate existing sentence encoders on STS; no weight updates; embedding and lexical scores |
 | [evaluate_paraphrase.ipynb](notebooks/evaluate_paraphrase.ipynb) | Evaluate existing sentence encoders on PAWS-Wiki; choose a cosine threshold on dev F1 |
 | [finetune_sts.ipynb](notebooks/finetune_sts.ipynb) | Fine-tune four multilingual cross-encoders with a 1-output STS regression head |
-| [finetune_paws.ipynb](notebooks/finetune_paws.ipynb) | Fine-tune four multilingual cross-encoders for binary paraphrase classification; results pending |
+| [finetune_paws.ipynb](notebooks/finetune_paws.ipynb) | Fine-tune four multilingual cross-encoders for binary paraphrase classification; supplied results included |
 
 Open the notebook in Colab or Kaggle, enable Internet and a GPU, then run every cell from top to bottom. The first code cell installs dependencies. Each notebook downloads `core_model_ready.csv` **from this repository itself**, using `https://raw.githubusercontent.com/MehribanAliyeva/azsembench/main/data/model_ready/core_model_ready.csv`. No dataset upload or Kaggle input is required. The initial publication must include that file before notebook downloads work.
 
@@ -234,7 +234,24 @@ mDeBERTa is strongest among the four supplied fine-tuned STS runs. Its Pearson e
 
 MPNet has the highest supplied test F1; E5 has the highest ROC-AUC. Recall is near 1 while precision and accuracy remain around 0.45: these dev-F1 thresholds produce many positive decisions, so F1 alone overstates the balance of performance on difficult negative pairs. Inspect accuracy, ROC-AUC and pair-level errors alongside F1.
 
-[Paraphrase metrics](results/paraphrase_detection/paraphrase_detection_results.csv), [dev thresholds](results/paraphrase_detection/paraphrase_detection_thresholds.csv), and compressed predictions are retained. **PAWS fine-tuned results are pending** and no numbers have been invented for them. The prepared PAWS notebook can be run now; add the completed results when available.
+[Paraphrase metrics](results/paraphrase_detection/paraphrase_detection_results.csv), [dev thresholds](results/paraphrase_detection/paraphrase_detection_thresholds.csv), and compressed predictions are retained.
+
+### Fine-tuned models: PAWS-Wiki test (4,980 pairs)
+
+All four supplied runs use a paraphrase-probability threshold of **0.5**.
+
+| Model | Accuracy | Precision | Recall | F1 | Balanced accuracy | MCC | ROC-AUC | Average precision | Brier score |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| XLM-RoBERTa-base | 0.9112 | 0.8748 | 0.9341 | 0.9035 | 0.9135 | 0.8230 | 0.9666 | 0.9556 | 0.0754 |
+| Multilingual BERT | 0.8984 | 0.8555 | 0.9282 | 0.8904 | 0.9014 | 0.7983 | 0.9599 | 0.9443 | 0.0891 |
+| Multilingual DistilBERT | 0.8627 | 0.8253 | 0.8767 | 0.8502 | 0.8641 | 0.7247 | 0.9346 | 0.9191 | 0.1115 |
+| mDeBERTa-v3-base | 0.9211 | 0.8899 | 0.9386 | 0.9136 | 0.9228 | 0.8421 | 0.9709 | 0.9603 | 0.0635 |
+
+mDeBERTa-v3-base leads the four supplied PAWS fine-tuned runs on test F1 (0.9136), accuracy (0.9211), MCC (0.8421), ROC-AUC (0.9709), and average precision (0.9603), and has the lowest Brier score (0.0635). XLM-RoBERTa is next on F1 (0.9035).
+
+The best supplied fine-tuned test F1 is approximately **0.2969 higher** than the best existing-model F1 (MPNet: 0.6167). The fine-tuned system combines a different encoder, joint sentence-pair encoding, supervised training and a different decision rule; this comparison does not isolate the effect of fine-tuning alone. Both result files evaluate the same split size, and no statistical significance claim is made.
+
+[All PAWS fine-tuned metrics](results/paws_finetuned/paws_finetuned_all_metrics.csv) contain **12 rows**: four models × train/dev/test (49,301 / 7,991 / 4,980 pairs). The CSV also includes Pearson, Spearman, Kendall τ and confusion-matrix counts; their definitions are above. Train results are in-sample. These are the supplied run results, imported without modification; PAWS fine-tuned predictions, training summaries and weights were not supplied.
 
 ## Validation and publishing
 
