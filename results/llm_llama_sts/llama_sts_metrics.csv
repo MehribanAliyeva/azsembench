@@ -1,0 +1,3 @@
+n,parsed_n,parse_coverage,pearson,spearman,kendall,mae,rmse,r2,model,model_id,task,condition,seed
+1378,1378,1.0,0.37220120501475623,0.3610052673679363,0.27429659092041614,1.3718425253991293,1.7384976429166379,-0.29929131676542586,llama32_3b,meta-llama/Llama-3.2-3B-Instruct,sts,zero_shot,42
+1378,1378,1.0,0.829205,0.822093,0.684659,0.656667,0.874682,0.671104,llama32_3b,meta-llama/Llama-3.2-3B-Instruct,sts,qlora_finetuned,42

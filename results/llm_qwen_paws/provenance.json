@@ -1,0 +1,7 @@
+{
+  "source_file": "paws-gwen (1).ipynb",
+  "source_sha256": "8516c7b2aac7e9a54dbf0dc003ab92e1a8a592d4dd5b7db9e7d5a1b5c1ffe1a6",
+  "imported_on": "2026-11-11",
+  "metric_source": "Stored notebook output; no GPU training rerun. STS displayed fine-tuned summary is rounded to six decimals.",
+  "notebook": "notebooks/llm_paws_qwen.ipynb"
+}

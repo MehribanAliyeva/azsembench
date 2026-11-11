@@ -1,0 +1,7 @@
+{
+  "source_file": "llama-sts.ipynb",
+  "source_sha256": "0999c898e87ce6ab20a39bd2c6c8257b6e2481d3722b7ecb8f82493e1ebed1a7",
+  "imported_on": "2026-11-11",
+  "metric_source": "Stored notebook output; no GPU training rerun. STS displayed fine-tuned summary is rounded to six decimals.",
+  "notebook": "notebooks/llm_sts_llama.ipynb"
+}

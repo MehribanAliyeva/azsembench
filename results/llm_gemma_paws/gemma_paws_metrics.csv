@@ -1,0 +1,3 @@
+n,parsed_n,parse_coverage,accuracy,precision,recall,f1,mcc,tn,fp,fn,tp,model,model_id,task,condition,seed
+4980,4980,1.0,0.7301204819277108,0.8822495606326889,0.45347786811201446,0.5990453460620525,0.47935240884616565,2632,134,1210,1004,gemma3_4b_unsloth,unsloth/gemma-3-4b-it-unsloth-bnb-4bit,paws,zero_shot,42
+4980,4980,1.0,0.9096385542168675,0.8955156950672646,0.9019873532068654,0.8987398739873987,0.8171781958459216,2533,233,217,1997,gemma3_4b_unsloth,unsloth/gemma-3-4b-it-unsloth-bnb-4bit,paws,qlora_finetuned,42

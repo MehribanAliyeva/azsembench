@@ -1,0 +1,17 @@
+{
+  "reported_on": "2026-11-01",
+  "source_type": "user-supplied screenshots",
+  "numeric_precision": "Metrics transcribed at six decimal places as displayed. Original CSV/predictions were not supplied.",
+  "source_images": [
+    "Screenshot 2026-11-01 at 23.50.06.png",
+    "Screenshot 2026-11-01 at 23.50.15.png"
+  ],
+  "checkpoint": "unsloth/gemma-3-4b-it-unsloth-bnb-4bit",
+  "supersedes": "The earlier GPT-OSS/Qwen3.8 LLM experiment is excluded from current results and comparisons.",
+  "limitations": "Only Gemma STS has supplied results. Pair IDs, raw predictions, confidence intervals and original unrounded metrics are unavailable. Notebook settings are unverified until the intended notebooks arrive.",
+  "notebook_status": "User will attach the intended notebooks separately. No Downloads candidates were included.",
+  "source_image_files": [
+    "source_screenshots/gemma_sts_metrics_screenshot.png",
+    "source_screenshots/gemma_sts_conditions_screenshot.png"
+  ]
+}

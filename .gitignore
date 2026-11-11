@@ -14,3 +14,6 @@ data/cache/batch_jobs/
 *.sqlite-wal
 *.sqlite-shm
 *.zip
+
+# Temporary Office lock files
+~$*

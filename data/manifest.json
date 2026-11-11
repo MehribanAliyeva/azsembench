@@ -1,5 +1,5 @@
 {
-  "snapshot_date": "2026-10-17",
+  "snapshot_date": "2026-11-11",
   "repository": "MehribanAliyeva/azsembench",
   "provenance": {
     "source_snapshots": "Original columns extracted from project data/final_from_cache/azsembench_core.csv and pawsx_multilingual_with_az.csv; exact upstream revision was not recorded in the supplied project.",
@@ -8,7 +8,13 @@
     "semantic_similarity_results": "Imported from attached semantic_similarity_results folder.",
     "paraphrase_results": "Imported from attached paraphrase_detection_results.zip. Predictions losslessly gzip-compressed.",
     "sts_finetuned_results": "Imported from attached sts_finetuned_all_metrics (1).csv; four models; no prediction variant, logs or weights provided.",
-    "paws_finetuned_results": "Imported unchanged from attached paws_finetuned_all_metrics.csv on 2026-10-17; four models across train/dev/test; threshold 0.5. No predictions, training summaries or weights supplied."
+    "paws_finetuned_results": "Imported unchanged from attached paws_finetuned_all_metrics.csv on 2026-10-17; four models across train/dev/test; threshold 0.5. No predictions, training summaries or weights supplied.",
+    "llm_gemma_sts_results": "Two Gemma STS conditions transcribed from supplied screenshots on 2026-11-01 at six decimal places. Earlier LLM experiment excluded. Intended STS notebook not supplied.",
+    "llm_qwen_sts_results": "Two Qwen/Qwen3-4B STS conditions transcribed from supplied screenshots on 2026-11-02 at six decimal places. Earlier LLM experiment excluded. Intended STS notebook not supplied.",
+    "llm_llama_sts_results": "Imported from stored outputs of supplied llama-sts.ipynb on 2026-11-11; zero-shot dictionary at full precision and QLoRA displayed summary at six decimals. Cleaned notebook included.",
+    "llm_qwen_paws_results": "Two stored result dictionaries imported unchanged from supplied paws-gwen (1).ipynb on 2026-11-11. Cleaned notebook included.",
+    "llm_gemma_paws_results": "Two result dictionaries supplied directly in the conversation on 2026-11-11; values unchanged. Cleaned paws-gemma.ipynb workflow included.",
+    "llm_llama_paws_results": "Two result dictionaries extracted from separately supplied Llama PAWS log on 2026-11-11; values unchanged, including the all-negative QLoRA result. Cleaned llama-paws.ipynb workflow included."
   },
   "files": [
     {
@@ -218,6 +224,197 @@
         "percent"
       ],
       "rows": 10
+    },
+    {
+      "path": "results/llm_gemma_paws/gemma_paws_metrics.csv",
+      "bytes": 519,
+      "sha256": "f48591d821e19973562a5b9f246c91e73e8546257a50faab815a491b281e1a05",
+      "columns": [
+        "n",
+        "parsed_n",
+        "parse_coverage",
+        "accuracy",
+        "precision",
+        "recall",
+        "f1",
+        "mcc",
+        "tn",
+        "fp",
+        "fn",
+        "tp",
+        "model",
+        "model_id",
+        "task",
+        "condition",
+        "seed"
+      ],
+      "rows": 2
+    },
+    {
+      "path": "results/llm_gemma_paws/provenance.json",
+      "bytes": 328,
+      "sha256": "c290105c2e3624c82c0b96f4f932bb39f17d30822036a72997b449898c819f10"
+    },
+    {
+      "path": "results/llm_gemma_sts/gemma_sts_metrics.csv",
+      "bytes": 387,
+      "sha256": "7558401549494c6311dad31332b56f6653f030bdc36f9c92bce31666be0aabc6",
+      "columns": [
+        "n",
+        "parsed_n",
+        "parse_coverage",
+        "pearson",
+        "spearman",
+        "kendall",
+        "mae",
+        "rmse",
+        "r2",
+        "model",
+        "model_id",
+        "task",
+        "condition",
+        "seed"
+      ],
+      "rows": 2
+    },
+    {
+      "path": "results/llm_gemma_sts/provenance.json",
+      "bytes": 980,
+      "sha256": "c6ac81ce7182e6aae37ecb675a9568a588d2dd97a062ebd4227d3a1fc040d93a"
+    },
+    {
+      "path": "results/llm_gemma_sts/source_screenshots/gemma_sts_conditions_screenshot.png",
+      "bytes": 90767,
+      "sha256": "58249ae0557b0fa5bb1b9d9aa6c23a98215505af34a12a3066d69fedb2f90075"
+    },
+    {
+      "path": "results/llm_gemma_sts/source_screenshots/gemma_sts_metrics_screenshot.png",
+      "bytes": 72335,
+      "sha256": "62ae04986a1c23fdddcceb0b08e00601c1b2c27ac8bc0174e8be1525b83824fb"
+    },
+    {
+      "path": "results/llm_llama_paws/llama_paws_metrics.csv",
+      "bytes": 427,
+      "sha256": "627c31eb5be720af62247f787dc26095cfafdce6e8c513876725c214eeca3a7c",
+      "columns": [
+        "n",
+        "parsed_n",
+        "parse_coverage",
+        "accuracy",
+        "precision",
+        "recall",
+        "f1",
+        "mcc",
+        "tn",
+        "fp",
+        "fn",
+        "tp",
+        "model",
+        "model_id",
+        "task",
+        "condition",
+        "seed"
+      ],
+      "rows": 2
+    },
+    {
+      "path": "results/llm_llama_paws/provenance.json",
+      "bytes": 399,
+      "sha256": "74a39f33253c9f7569db5f558a3db9bc7292b7f5881ae76e73ff972a8641d0cf"
+    },
+    {
+      "path": "results/llm_llama_sts/llama_sts_metrics.csv",
+      "bytes": 426,
+      "sha256": "0de5e2abf2cb2e1a9b14d1dea3f8bc8e81c22238fa9abafae4dfe74a5a1d0bf4",
+      "columns": [
+        "n",
+        "parsed_n",
+        "parse_coverage",
+        "pearson",
+        "spearman",
+        "kendall",
+        "mae",
+        "rmse",
+        "r2",
+        "model",
+        "model_id",
+        "task",
+        "condition",
+        "seed"
+      ],
+      "rows": 2
+    },
+    {
+      "path": "results/llm_llama_sts/provenance.json",
+      "bytes": 334,
+      "sha256": "782d6c8297b955a43e3eca338b451ff3d1bd8d28c7040eda493eb5b0ed4b793e"
+    },
+    {
+      "path": "results/llm_qwen_paws/provenance.json",
+      "bytes": 338,
+      "sha256": "10d35b6dfa7fac233a353043f35c98d881871d6683ba010e8c7dded214449726"
+    },
+    {
+      "path": "results/llm_qwen_paws/qwen_paws_metrics.csv",
+      "bytes": 445,
+      "sha256": "d698cc9923e7341bd0a65a4bce79927682236d5d0a40d1c740412eb55a0a69a0",
+      "columns": [
+        "n",
+        "parsed_n",
+        "parse_coverage",
+        "accuracy",
+        "precision",
+        "recall",
+        "f1",
+        "mcc",
+        "tn",
+        "fp",
+        "fn",
+        "tp",
+        "model",
+        "model_id",
+        "task",
+        "condition",
+        "seed"
+      ],
+      "rows": 2
+    },
+    {
+      "path": "results/llm_qwen_sts/provenance.json",
+      "bytes": 853,
+      "sha256": "fd2a2d92e836ef9db6406f71a9198fd81ac9bfd9a0ed66c5ceb01059ec805e88"
+    },
+    {
+      "path": "results/llm_qwen_sts/qwen_sts_metrics.csv",
+      "bytes": 322,
+      "sha256": "8494bc74681ce0b7afd9eee644dc2563d42b517fb729937673d1986e1a1d9c44",
+      "columns": [
+        "n",
+        "parsed_n",
+        "parse_coverage",
+        "pearson",
+        "spearman",
+        "kendall",
+        "mae",
+        "rmse",
+        "r2",
+        "model",
+        "model_id",
+        "task",
+        "condition",
+        "seed"
+      ],
+      "rows": 2
+    },
+    {
+      "path": "results/llm_qwen_sts/source_screenshots/qwen_sts_conditions_screenshot.png",
+      "bytes": 94309,
+      "sha256": "8a00724b2fce8ee4e90397b29570eecdbc26deb2e99e4becff27ec86b161e7fd"
+    },
+    {
+      "path": "results/llm_qwen_sts/source_screenshots/qwen_sts_metrics_screenshot.png",
+      "bytes": 66370,
+      "sha256": "74c5b630814ad5eef2e2efdfb0fa66bc549376d63dc9993a496f828a3b5c362e"
     },
     {
       "path": "results/paraphrase_detection/paraphrase_detection_predictions.csv.gz",

@@ -6,7 +6,7 @@ AzSemBench is an Azerbaijani sentence-pair benchmark for semantic textual simila
 
 | Path | Purpose |
 |---|---|
-| `data/model_ready/core_model_ready.csv` | Azerbaijani STS-B and PAWS-Wiki used by all four notebooks |
+| `data/model_ready/core_model_ready.csv` | Azerbaijani STS-B and PAWS-Wiki used by the notebooks |
 | `data/model_ready/pawsx_translation_model_ready.csv` | PAWS-X multilingual rows with usable Azerbaijani translations |
 | `data/model_ready/*status_stats.csv` | Counts of retained and excluded rows by reason |
 | `data/source/core.csv.gz`, `pawsx.csv.gz` | Original source sentences, labels, IDs and splits extracted from the supplied project snapshot; no Azerbaijani translation columns |
@@ -114,6 +114,10 @@ python audit_core_and_translation_dataset.py --out-dir /tmp/azsembench-model-rea
 | [evaluate_paraphrase.ipynb](notebooks/evaluate_paraphrase.ipynb) | Evaluate existing sentence encoders on PAWS-Wiki; choose a cosine threshold on dev F1 |
 | [finetune_sts.ipynb](notebooks/finetune_sts.ipynb) | Fine-tune four multilingual cross-encoders with a 1-output STS regression head |
 | [finetune_paws.ipynb](notebooks/finetune_paws.ipynb) | Fine-tune four multilingual cross-encoders for binary paraphrase classification; supplied results included |
+| [llm_sts_llama.ipynb](notebooks/llm_sts_llama.ipynb) | Llama 3.2 3B: zero-shot and QLoRA STS |
+| [llm_paws_qwen.ipynb](notebooks/llm_paws_qwen.ipynb) | Qwen3-4B: zero-shot and QLoRA PAWS |
+| [llm_paws_gemma.ipynb](notebooks/llm_paws_gemma.ipynb) | Gemma 3 4B: zero-shot and QLoRA PAWS |
+| [llm_paws_llama.ipynb](notebooks/llm_paws_llama.ipynb) | Llama 3.2 3B: zero-shot and QLoRA PAWS |
 
 Open the notebook in Colab or Kaggle, enable Internet and a GPU, then run every cell from top to bottom. The first code cell installs dependencies. Each notebook downloads `core_model_ready.csv` **from this repository itself**, using `https://raw.githubusercontent.com/MehribanAliyeva/azsembench/main/data/model_ready/core_model_ready.csv`. No dataset upload or Kaggle input is required. The initial publication must include that file before notebook downloads work.
 
@@ -128,9 +132,21 @@ The notebook configuration reads `AZSEMBENCH_REPO` and `AZSEMBENCH_REF` from env
 
 Existing STS models: `LocalDoc/az-en-MiniLM-L6-v2`, LaBSE, multilingual MPNet, multilingual E5-large. Paraphrase evaluation also includes multilingual MiniLM-L12-v2. E5 uses `query: ` on both sentences for symmetric similarity. Embeddings are L2-normalized.
 
-Both fine-tuning notebooks use only `FacebookAI/xlm-roberta-base`, `google-bert/bert-base-multilingual-cased`, `distilbert/distilbert-base-multilingual-cased`, and `microsoft/mdeberta-v3-base`. Each encodes the sentence pair jointly. STS selects the best checkpoint by **dev Pearson**; PAWS selects by **dev F1**. Test is held out from checkpoint and threshold selection. Seed is 42; max sequence length is 192; learning rate is 2e-5; weight decay is 0.01; training batch size is 8 with 2 gradient-accumulation steps; evaluation batch size is 32. STS allows 5 epochs with early-stopping patience 2; PAWS allows 4 epochs with patience 1. These are the prepared notebook settings, not a recovered log of the supplied runs.
+Both encoder fine-tuning notebooks use only `FacebookAI/xlm-roberta-base`, `google-bert/bert-base-multilingual-cased`, `distilbert/distilbert-base-multilingual-cased`, and `microsoft/mdeberta-v3-base`. Each encodes the sentence pair jointly. STS selects the best checkpoint by **dev Pearson**; PAWS selects by **dev F1**. Test is held out from checkpoint and threshold selection. Seed is 42; max sequence length is 192; learning rate is 2e-5; weight decay is 0.01; training batch size is 8 with 2 gradient-accumulation steps; evaluation batch size is 32. STS allows 5 epochs with early-stopping patience 2; PAWS allows 4 epochs with patience 1. These are the prepared notebook settings, not a recovered log of the supplied runs.
 
 STS uses float32 regression loss and reports raw and clipped [0,5] predictions separately. Its tokenizer uses a fast implementation where available and falls back to a slow tokenizer. PAWS neural predictions use paraphrase probability at least 0.5. Its lexical baselines choose thresholds by dev F1, breaking ties by accuracy. Temporary checkpoints are deleted after saving the best model; CSV progress is saved after each model. Models run sequentially to limit GPU memory usage.
+
+### Small-LLM notebooks
+
+Use a fresh CUDA GPU session for each notebook; Gemma uses Unsloth while Qwen and Llama use Transformers/PEFT/TRL. Run the dependency cell first, then the configuration, data, zero-shot, training and adapted evaluation cells in order. Llama checkpoints require approved Hugging Face access. Set `HF_TOKEN` in an environment variable, an ignored local `.env`, Kaggle Secrets or Colab Secrets. The notebooks never embed personal credentials and their published outputs are cleared.
+
+These notebooks fetch `core_model_ready.csv` from this repo, print its SHA-256, explicitly select Azerbaijani columns and the relevant task, and preserve split assignments. PAWS IDs combine split and source ID because source IDs repeat between partitions. No Kaggle dataset mount is needed. `AZSEMBENCH_REPO` / `AZSEMBENCH_REF` select a repository revision, optional `AZSEMBENCH_DATA_SHA256` verifies its content, and `AZSEMBENCH_OUTPUT_DIR` sets the parent of each notebook's separate output directory. Pin the ref and expected hash for a reproducible run. Configuration metadata prevents reusing outputs with a different model, dataset or main training settings; choose a fresh output directory when changing prompts or other experimental settings.
+
+All three PAWS notebooks retain the submitted workflow's **15,000 stratified training examples**, **one epoch**, seed **42**, maximum sequence length **256**, learning rate **2e-4**, training batch **1**, gradient accumulation **4**, inference batch **16**, and LoRA rank **16**. Gemma uses alpha **16**, dropout **0.0** and Unsloth; Qwen and Llama use alpha **32**, dropout **0.05** and 4-bit NF4 base weights with float32 trainable adapters. Training uses 50 warmup steps, packing and completion-only loss when supported by the installed TRL configuration. No development evaluation or intermediate checkpoint selection is performed in these PAWS runs. Runtime versions and accepted trainer arguments are printed.
+
+PAWS decisions compare the next-token logits of `0` and `1`; probabilities normalize those two logits, and the larger logit determines the label. Left padding is used for batched classification. Qwen disables thinking in its chat template. The fine-tuned evaluation reloads a fresh base plus the saved adapter and recomputes its predictions. The cleaned Gemma workflow also corrects a copied Qwen model label in prediction records. These maintenance changes apply to future runs; imported historical metrics remain unchanged.
+
+Llama STS uses the submitted notebook's two epochs, maximum length 384, learning rate 2e-4, batch size 1, accumulation 8, and LoRA rank 16 / alpha 32 / dropout 0.05. Its Azerbaijani prompt requests a 0–5 score with deterministic generation. Adapters, predictions, run configuration and trainer logs are saved under the configured output directory, which is ignored by Git. The cleaned workflows have not been retrained here.
 
 ## Metrics and score functions
 
@@ -221,6 +237,90 @@ E5 has the highest cosine Pearson; LocalDoc has the highest cosine Spearman. Amo
 mDeBERTa is strongest among the four supplied fine-tuned STS runs. Its Pearson exceeds the best supplied existing-model cosine Pearson by approximately 0.0978. This is a comparison of different systems, including different encoders and joint pair encoding; it is not a controlled estimate of the effect of fine-tuning alone.
 
 [Fine-tuned STS metrics](results/sts_finetuned/sts_finetuned_all_metrics.csv) contain 12 rows (four models × three splits). This supplied CSV has no prediction-variant column, fine-tuned predictions, training logs, or additional regression/lexical metrics. The new notebook emits raw/clipped variants and additional diagnostics on future runs. The supplied values are not relabeled as either variant.
+
+### Small-LLM results: STS and PAWS
+
+The current study compares zero-shot and QLoRA conditions for **Gemma 3 4B IT**, **Qwen3-4B** and **Llama 3.2 3B Instruct**, superseding the earlier LLM experiment. All three STS and all three PAWS result summaries are available. Qwen PAWS metrics come from stored notebook outputs; Gemma and Llama PAWS metrics come from separately supplied result dictionaries/logs. Cleaned PAWS workflows for all three models and the supplied Llama STS workflow are included.
+
+#### STS test results
+
+The STS test partition contains **1,378 pairs**. All submitted LLM conditions use seed **42**. The Gemma checkpoint is `unsloth/gemma-3-4b-it-unsloth-bnb-4bit` (4B class); Qwen is `Qwen/Qwen3-4B` (4.0B); Llama is `meta-llama/Llama-3.2-3B-Instruct` (3B class).
+
+| Model | Condition | Pearson ↑ | Spearman ↑ | Kendall τ ↑ | MAE ↓ | RMSE ↓ | R² ↑ |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Gemma 3 4B | Zero-shot | 0.727112 | 0.699668 | 0.541051 | 0.896255 | 1.143963 | 0.437422 |
+| Gemma 3 4B | QLoRA | 0.849855 | 0.840079 | 0.697510 | 0.608261 | 0.812432 | 0.716253 |
+| Qwen3-4B | Zero-shot | 0.543180 | 0.546786 | 0.454500 | 1.073342 | 1.331572 | 0.237767 |
+| Qwen3-4B | QLoRA | 0.857257 | 0.849847 | 0.712752 | 0.572309 | 0.793223 | 0.729597 |
+| Llama 3.2 3B | Zero-shot | 0.372201 | 0.361005 | 0.274297 | 1.371843 | 1.738498 | -0.299291 |
+| Llama 3.2 3B | QLoRA | 0.829205 | 0.822093 | 0.684659 | 0.656667 | 0.874682 | 0.671104 |
+
+Reported Pearson gains are **0.122743** for Gemma, **0.314077** for Qwen and approximately **0.457004** for Llama. RMSE falls by approximately **29.0%**, **40.4%** and **49.7%**, respectively. Qwen has the highest LLM Pearson (0.857257), while fine-tuned mDeBERTa retains the highest overall Pearson (0.866624) and lower RMSE (0.773136). Qwen's MAE (0.572309) is slightly lower than mDeBERTa's (0.575873), and its Kendall correlation (0.712752) is higher, so rankings depend on the metric.
+
+All three adapted LLMs exceed the strongest existing-model cosine Pearson (E5-large: 0.768788) and the strongest lexical Pearson (char-3 Jaccard: 0.687902). Cross-system differences combine architecture, inference, dataset and training choices; they are descriptive, with no statistical significance claim.
+
+Sources: [Gemma STS metrics](results/llm_gemma_sts/gemma_sts_metrics.csv), [Qwen STS metrics](results/llm_qwen_sts/qwen_sts_metrics.csv), and [Llama STS metrics](results/llm_llama_sts/llama_sts_metrics.csv). Gemma and Qwen values come from six-decimal screenshots. Llama's zero-shot dictionary retains full precision; its fine-tuned summary is displayed to six decimals in the supplied notebook. Provenance files record the origins of each export. Raw LLM predictions and weights were not supplied.
+
+#### Small-LLM PAWS test results
+
+All reported conditions evaluate **4,980 test pairs** with seed **42**. The submitted PAWS training workflows use a **15,000-example stratified subset** and **one epoch**.
+
+| Model | Condition | Accuracy ↑ | Precision ↑ | Recall ↑ | F1 ↑ | MCC ↑ |
+|---|---|---:|---:|---:|---:|---:|
+| Gemma 3 4B | Zero-shot | 0.730120 | 0.882250 | 0.453478 | 0.599045 | 0.479352 |
+| Gemma 3 4B | QLoRA | 0.909639 | 0.895516 | 0.901987 | 0.898740 | 0.817178 |
+| Qwen3-4B | Zero-shot | 0.587952 | 0.521463 | 0.888889 | 0.657315 | 0.273703 |
+| Qwen3-4B | QLoRA | 0.784337 | 0.887755 | 0.589431 | 0.708469 | 0.577160 |
+| Llama 3.2 3B | Zero-shot | 0.508434 | 0.426783 | 0.308040 | 0.357817 | -0.024616 |
+| Llama 3.2 3B | QLoRA | 0.555422 | 0.000000 | 0.000000 | 0.000000 | 0.000000 |
+
+**Gemma** improves F1 from **0.599045 to 0.898740** (+0.299695) and accuracy from **0.730120 to 0.909639** (+17.95 percentage points). Recall rises from 0.453478 to 0.901987 while precision remains high (0.882250 → 0.895516). Gemma QLoRA is the strongest tested LLM on PAWS F1, **0.014868 below** fine-tuned mDeBERTa (0.913607) and **0.281991 above** the strongest existing encoder F1 (MPNet: 0.616749).
+
+**Qwen** improves accuracy by **19.64 percentage points**, F1 by **0.051154**, and MCC by **0.303457**. Precision rises from 0.521463 to 0.887755 while recall decreases from 0.888889 to 0.589431. False positives fall from 1,806 to 165, but false negatives rise from 246 to 909. Qwen QLoRA F1 (0.708469) exceeds MPNet by 0.091720 while remaining 0.205138 below mDeBERTa.
+
+**Llama** behaves differently: QLoRA predicts **every test pair as non-paraphrase** (TN=2,766, FP=0, FN=2,214, TP=0). Its accuracy rises from 0.508434 to 0.555422 because non-paraphrases are the majority class, while F1 falls from 0.357817 to **0.000000** and MCC is **0.000000**. This run does not provide a useful positive-class detector. The result is retained rather than omitted. Diagnosing the training objective, completion labels, adapter behavior and decision scores requires further investigation; the aggregate metrics do not identify a cause.
+
+| Model | Condition | TN | FP | FN | TP |
+|---|---|---:|---:|---:|---:|
+| Gemma 3 4B | Zero-shot | 2632 | 134 | 1210 | 1004 |
+| Gemma 3 4B | QLoRA | 2533 | 233 | 217 | 1997 |
+| Qwen3-4B | Zero-shot | 960 | 1806 | 246 | 1968 |
+| Qwen3-4B | QLoRA | 2601 | 165 | 909 | 1305 |
+| Llama 3.2 3B | Zero-shot | 1850 | 916 | 1532 | 682 |
+| Llama 3.2 3B | QLoRA | 2766 | 0 | 2214 | 0 |
+
+The encoder PAWS workflow uses the full 49,301-row training split, while the submitted LLM PAWS workflow uses 15,000 examples and one epoch. These descriptive comparisons do not isolate architecture or fine-tuning effectiveness. ROC-AUC, average precision and Brier scores were not supplied for these LLM PAWS runs and are not inferred from hard labels. No lexical PAWS result is supplied.
+
+Sources: [Gemma PAWS metrics](results/llm_gemma_paws/gemma_paws_metrics.csv), [Qwen PAWS metrics](results/llm_qwen_paws/qwen_paws_metrics.csv), and [Llama PAWS metrics](results/llm_llama_paws/llama_paws_metrics.csv). Each directory includes provenance; reported values and confusion-matrix counts are imported unchanged. Raw LLM predictions and adapters were not supplied.
+
+| Model | STS metrics | STS notebook | PAWS metrics | PAWS notebook |
+|---|---|---|---|---|
+| Gemma 3 4B IT | Available | Awaiting intended attachment | Available | [Ready](notebooks/llm_paws_gemma.ipynb) |
+| Qwen3-4B | Available | Awaiting intended attachment | Available | [Ready](notebooks/llm_paws_qwen.ipynb) |
+| Llama 3.2 3B Instruct | Available | [Ready](notebooks/llm_sts_llama.ipynb) | Available | [Ready](notebooks/llm_paws_llama.ipynb) |
+
+The earlier [Gemma and Qwen STS supplement](presentations/AzSemBench_Gemma_Qwen_STS_Supplement.pptx) is a historical STS presentation. The tables above contain the latest supplied results.
+
+### Model-size reference
+
+Counts below describe published checkpoint/base-model parameters, **including embeddings**, using the rounding shown on the linked model cards. They are not measurements of trained LoRA parameters, GPU memory, disk size or inference speed. A task head or adapter can add parameters. `M` means million and `B` means billion.
+
+| Model | Approximate parameters | Source |
+|---|---:|---|
+| LocalDoc MiniLM | 30.2M | [Model card](https://huggingface.co/LocalDoc/az-en-MiniLM-L6-v2) |
+| LaBSE | ~0.5B | [Model card](https://huggingface.co/sentence-transformers/LaBSE) |
+| Multilingual MPNet | ~0.3B | [Model card](https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2) |
+| Multilingual MiniLM-L12 | ~117.7M | [Model card](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2) |
+| Multilingual E5-large | ~0.6B | [Model card](https://huggingface.co/intfloat/multilingual-e5-large) |
+| XLM-RoBERTa-base | ~0.3B | [Model card](https://huggingface.co/FacebookAI/xlm-roberta-base) |
+| Multilingual BERT | ~0.2B | [Model card](https://huggingface.co/google-bert/bert-base-multilingual-cased) |
+| Multilingual DistilBERT | ~0.1B | [Model card](https://huggingface.co/distilbert/distilbert-base-multilingual-cased) |
+| mDeBERTa-v3-base | ~276M | [Model card](https://huggingface.co/microsoft/mdeberta-v3-base) |
+| Gemma 3 4B IT | 4B class | [Model card](https://huggingface.co/unsloth/gemma-3-4b-it-unsloth-bnb-4bit) |
+| Qwen3-4B | 4.0B | [Model card](https://huggingface.co/Qwen/Qwen3-4B) |
+| Llama 3.2 3B Instruct | 3B class | [Model card](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct) |
+
+mDeBERTa’s approximately 276M total combines the model card’s 86M backbone and 190M embedding parameters. The source links and size conventions are also recorded in [model_sizes.json](docs/model_sizes.json). The Gemma experiment uses the Unsloth 4-bit checkpoint; **4-bit is a weight format, not a four-billion-parameter reduction**.
 
 ### Existing models: paraphrase test (4,980 pairs)
 

@@ -1,0 +1,3 @@
+n,parsed_n,parse_coverage,accuracy,precision,recall,f1,mcc,tn,fp,fn,tp,model,model_id,task,condition,seed
+4980,4980,1.0,0.5084337349397591,0.4267834793491865,0.3080397470641373,0.3578174186778594,-0.02461557421425966,1850,916,1532,682,llama32_3b,meta-llama/Llama-3.2-3B-Instruct,paws,zero_shot,42
+4980,4980,1.0,0.555421686746988,0.0,0.0,0.0,0.0,2766,0,2214,0,llama32_3b,meta-llama/Llama-3.2-3B-Instruct,paws,qlora_finetuned,42

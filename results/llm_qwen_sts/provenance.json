@@ -1,0 +1,13 @@
+{
+  "reported_on": "2026-11-02",
+  "source_type": "user-supplied screenshots",
+  "numeric_precision": "Transcribed at six decimal places as shown. Original CSV and predictions were not supplied.",
+  "source_image_files": [
+    "source_screenshots/qwen_sts_conditions_screenshot.png",
+    "source_screenshots/qwen_sts_metrics_screenshot.png"
+  ],
+  "model_id": "Qwen/Qwen3-4B",
+  "coverage_note": "Both rows report n=1378. Zero-shot parsed_n=1378; QLoRA parsed_n=1377 and parse_coverage=0.999274 as displayed. Fine-tuned scores therefore do not cover exactly the same scored rows as the other full-coverage runs.",
+  "notebook_status": "Intended notebooks pending user attachment.",
+  "limitations": "No raw predictions, failed pair ID, training logs, confidence intervals or unrounded metrics supplied. No common-subset comparison has been computed."
+}

@@ -1,0 +1,102 @@
+{
+  "verified_on": "2026-11-01",
+  "convention": "Approximate published checkpoint/base-model parameter counts, including embeddings. B=one billion, M=one million. Rounded model-card values are explicitly marked. These are not trained-adapter counts, memory use, disk sizes, or efficiency measurements. Fine-tuned task heads and LoRA adapters can add parameters.",
+  "models": [
+    {
+      "model_id": "LocalDoc/az-en-MiniLM-L6-v2",
+      "label": "LocalDoc MiniLM",
+      "parameters_display": "30.2M",
+      "approx_parameters_millions": 30.2,
+      "basis": "model card",
+      "source_url": "https://huggingface.co/LocalDoc/az-en-MiniLM-L6-v2"
+    },
+    {
+      "model_id": "sentence-transformers/LaBSE",
+      "label": "LaBSE",
+      "parameters_display": "~0.5B",
+      "approx_parameters_millions": 500,
+      "basis": "rounded model card",
+      "source_url": "https://huggingface.co/sentence-transformers/LaBSE"
+    },
+    {
+      "model_id": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+      "label": "Multilingual MPNet",
+      "parameters_display": "~0.3B",
+      "approx_parameters_millions": 300,
+      "basis": "rounded model card",
+      "source_url": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+    },
+    {
+      "model_id": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "label": "Multilingual MiniLM-L12",
+      "parameters_display": "~117.7M",
+      "approx_parameters_millions": 117.7,
+      "basis": "safetensors metadata (includes tiny buffers)",
+      "source_url": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    },
+    {
+      "model_id": "intfloat/multilingual-e5-large",
+      "label": "Multilingual E5-large",
+      "parameters_display": "~0.6B",
+      "approx_parameters_millions": 600,
+      "basis": "rounded model card",
+      "source_url": "https://huggingface.co/intfloat/multilingual-e5-large"
+    },
+    {
+      "model_id": "FacebookAI/xlm-roberta-base",
+      "label": "XLM-RoBERTa-base",
+      "parameters_display": "~0.3B",
+      "approx_parameters_millions": 300,
+      "basis": "rounded model card",
+      "source_url": "https://huggingface.co/FacebookAI/xlm-roberta-base"
+    },
+    {
+      "model_id": "google-bert/bert-base-multilingual-cased",
+      "label": "Multilingual BERT",
+      "parameters_display": "~0.2B",
+      "approx_parameters_millions": 200,
+      "basis": "rounded model card",
+      "source_url": "https://huggingface.co/google-bert/bert-base-multilingual-cased"
+    },
+    {
+      "model_id": "distilbert/distilbert-base-multilingual-cased",
+      "label": "Multilingual DistilBERT",
+      "parameters_display": "~0.1B",
+      "approx_parameters_millions": 100,
+      "basis": "rounded model card",
+      "source_url": "https://huggingface.co/distilbert/distilbert-base-multilingual-cased"
+    },
+    {
+      "model_id": "microsoft/mdeberta-v3-base",
+      "label": "mDeBERTa-v3-base",
+      "parameters_display": "~276M",
+      "approx_parameters_millions": 276,
+      "basis": "86M backbone + 190M embedding parameters in model card",
+      "source_url": "https://huggingface.co/microsoft/mdeberta-v3-base"
+    },
+    {
+      "model_id": "unsloth/gemma-3-4b-it-unsloth-bnb-4bit",
+      "label": "Gemma 3 4B IT",
+      "parameters_display": "4B class",
+      "approx_parameters_millions": 4000,
+      "basis": "nominal model size; base weights quantized to 4-bit",
+      "source_url": "https://huggingface.co/unsloth/gemma-3-4b-it-unsloth-bnb-4bit"
+    },
+    {
+      "model_id": "Qwen/Qwen3-4B",
+      "label": "Qwen3-4B",
+      "parameters_display": "4.0B",
+      "approx_parameters_millions": 4000,
+      "basis": "model card",
+      "source_url": "https://huggingface.co/Qwen/Qwen3-4B"
+    },
+    {
+      "model_id": "meta-llama/Llama-3.2-3B-Instruct",
+      "label": "Llama 3.2 3B Instruct",
+      "parameters_display": "3B class",
+      "approx_parameters_millions": 3000,
+      "basis": "nominal model size",
+      "source_url": "https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct"
+    }
+  ]
+}

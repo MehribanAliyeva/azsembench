@@ -1,0 +1,7 @@
+{
+  "source": "User-supplied Llama PAWS log pasted November 11, 2026; attached notebook contains code without outputs.",
+  "imported_on": "2026-11-11",
+  "notebook": "notebooks/llm_paws_llama.ipynb",
+  "notes": "Metrics retained as supplied. No training rerun; raw predictions and adapters were not supplied.",
+  "source_sha256": "fce00819fd7793a70c5a823872c2c10a7810c04c53e90aef98c90e58f4fa5c35"
+}

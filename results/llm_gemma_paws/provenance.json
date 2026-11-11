@@ -1,0 +1,6 @@
+{
+  "source": "User-supplied Gemma PAWS result dictionaries pasted November 11, 2026; attached notebook contains code without outputs.",
+  "imported_on": "2026-11-11",
+  "notebook": "notebooks/llm_paws_gemma.ipynb",
+  "notes": "Metrics retained as supplied. No training rerun; raw predictions and adapters were not supplied."
+}

@@ -3,6 +3,7 @@
 import ast
 import hashlib
 import json
+import re
 from pathlib import Path
 
 import nbformat
@@ -12,6 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main():
     for path in sorted((ROOT / 'notebooks').glob('*.ipynb')):
+        # Inspect the whole serialized notebook, including outputs and metadata.
+        assert not re.search(r'hf_[A-Za-z0-9]{15,}|sk-[A-Za-z0-9_-]{20,}', path.read_text()), f'{path}: embedded credential'
         nb = nbformat.read(path, as_version=4)
         nbformat.validate(nb)
         for i, cell in enumerate(nb.cells):
